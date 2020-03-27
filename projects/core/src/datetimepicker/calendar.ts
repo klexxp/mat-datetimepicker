@@ -46,6 +46,8 @@ import { MatDatetimepickerFilterType } from "./datetimepicker-filtertype";
   styleUrls: ["calendar.scss"],
   host: {
     "[class.mat-datetimepicker-calendar]": "true",
+    "[attr.aria-label]": "ariaLabel",
+    "role": "dialog",
     "tabindex": "0",
     "(keydown)": "_handleCalendarBodyKeydown($event)"
   },
@@ -117,6 +119,12 @@ export class MatDatetimepickerCalendar<D> implements AfterContentInit, OnDestroy
   /** A function used to filter which dates are selectable. */
   @Input() dateFilter: (date: D, type: MatDatetimepickerFilterType) => boolean;
 
+  @Input() ariaLabel = "Use arrow keys to navigate";
+  @Input() ariaNextMonthLabel = "Next month";
+  @Input() ariaPrevMonthLabel = "Previous month";
+  @Input() ariaNextYearLabel = "Next year";
+  @Input() ariaPrevYearLabel = "Previous year";
+
   /** Emits when the currently selected date changes. */
   @Output() selectedChange = new EventEmitter<D>();
 
@@ -184,6 +192,28 @@ export class MatDatetimepickerCalendar<D> implements AfterContentInit, OnDestroy
 
   get _minutesLabel(): string {
     return this._2digit(this._adapter.getMinute(this._activeDate));
+  }
+
+  get _ariaLabelNext(): string {
+    switch (this._currentView) {
+      case "month":
+        return this.ariaNextMonthLabel;
+      case "year":
+        return this.ariaNextYearLabel;
+      default:
+        return "";
+    }
+  }
+
+  get _ariaLabelPrev(): string {
+    switch (this._currentView) {
+      case "month":
+        return this.ariaPrevMonthLabel;
+      case "year":
+        return this.ariaPrevYearLabel;
+      default:
+        return "";
+    }
   }
 
   _calendarState: string;
