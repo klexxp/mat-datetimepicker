@@ -92,9 +92,9 @@ export class MomentDatetimeAdapter extends DatetimeAdapter<Moment> {
 
     // const result = moment({year, month, date, hour, minute}).locale(this.locale);
     let result = moment({year, month, date, hour, minute});
-    if (this._useUtc) {
-      result = result.utc();
-    }
+//     if (this._useUtc) {
+//       result = result.utc();
+//     }
 
     // If the result isn't valid, the date must have been out of bounds for this month.
     if (!result.isValid()) {
